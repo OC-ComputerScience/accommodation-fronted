@@ -20,7 +20,7 @@
                 })
                 .catch((err) => {
                     if(err.response && err.response.status === 404)
-                        noDataMsg = `No data found for student with ID ${searchValue.value}`;
+                        noDataMsg.value = `No data found for student with ID ${searchValue.value}`;
                 });
         }
         else if(filterType.value == "Semester") { //find by semester
@@ -30,7 +30,7 @@
                 })
                 .catch((err) => {
                     if(err.response && err.response.status === 404)
-                        noDataMsg = `No data found for Semester ${searchValue.value}`;
+                        noDataMsg.value = `No data found for Semester ${searchValue.value}`;
                 });
         } else return;
         //loop through studentAccom to parse data and put in array
@@ -86,7 +86,7 @@
                 </v-btn>
             </div>
             <div class="ma-4">
-                <p v-if="noDataMsg">{{ noDataMsg }}</p>
+                <p v-if="noDataMsg.value">{{ noDataMsg.value }}</p>
                 <v-table
                 v-if="tableData.length > 0"
                 fixed-header
