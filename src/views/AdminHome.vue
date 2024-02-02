@@ -112,12 +112,14 @@ const closeRequest = (request) => {
                 <!--TODO: Add function call stubs to both these-->
                 <!--Add will router-link to AddAccom page--make sure I know what this page is called-->
                 <v-btn
+                  color="button_blue"
                   @click = "addAccom(request)"
                   >Approve Request
                 </v-btn>
                   <!--Close should open a dialog box asking if the user is sure which allows closing of the request without adding accommodations-->
                 <v-btn 
                   flat
+                  color="primary"
                   @click = "(closeModal = true),(selectedRequest = request)"
                   >Close
                 </v-btn>
