@@ -132,8 +132,9 @@ function findAccomById(id) {
     <div class="ma-6">
         <div>
             <p class="text-h5" style="font-weight: bold;">Add Accommodations</p>
-            <v-btn class="ml-4" style="float:right" @click="cancel()">cancel</v-btn>
-            <v-btn class="mr-4" color="#F9C634" style="float:right" @click="save()">save</v-btn>
+            <v-btn class="mr-4" color="#808080" style="float:right" @click="save()">save</v-btn>
+            <v-btn class="ml-4" color="#808080" style="float:right" @click="cancel()">cancel</v-btn>
+            
         </div>
         <p style="font-weight: bold;"> {{ fName }} {{ lName }} </p>
 
