@@ -61,7 +61,7 @@ const router = createRouter({
     },
     {
       path: '/admin/adminStudentAccom/',
-      name: '/admin/adminStudentAccom',
+      name: 'adminStudentAccom',
       component: AdminStudentAccom,
     },
     
