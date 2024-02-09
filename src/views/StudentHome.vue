@@ -40,25 +40,20 @@ import studentAccomServices from "../services/studentAccomServices";
         user.value = Utils.getStore("user");
         await StudentServices.getEmail(user.value.email)
             .then((response) => {
-                student.value[0] = response.data[0];
-                console.log("inside find student");
-                console.log(student.value);
-                if(!student.value[0].permission){
+                student.value = response.data;
+                if(!student.value.permission){
                     permissions.value = true;
                 }
             })
             .catch(async (err) => {
                 if(err.response && err.response.status === 404){
-                    console.log(err);
                     permissions.value = true;
                 }
             });
-        // console.log(student.value[0].permission);
-        // permissions.value = student.value[0].permission ? false : true;
+
     }
 
     const createStudent = async (studentId) => {
-        //console.log('entering student creation');
         user.value = null;
         user.value = Utils.getStore("user");
         const data = {
@@ -77,14 +72,11 @@ import studentAccomServices from "../services/studentAccomServices";
         await StudentServices.getOne(studentId)
             .then((response) => {
                 student.value = response.data;
-                console.log(student.value);
             });
-        console.log(student);
         return student;
     }
 
     const addConsent = async (studentId) => {
-        console.log('adding consent');
         student.value = null;
         await StudentServices.getOne(studentId)
             .then(async (response) => {
@@ -93,14 +85,11 @@ import studentAccomServices from "../services/studentAccomServices";
                     permission: 1,
                     dateSigned: new Date()
                 };
-                console.log(data);
                 user.value = null;
                 user.value = Utils.getStore("user");
-                //console.log(user.value);
                 await StudentServices.update(studentId, data);
             })
             .catch(async (err) => {
-                console.log(err);
                 if(err.response && err.response.status === 404){
                     await createStudent(studentId)
                         .then((response) => {
@@ -114,10 +103,8 @@ import studentAccomServices from "../services/studentAccomServices";
 
     //CREATE REQUEST METHODS
     const handleCreate = (selectedSem) => {
-        console.log(selectedSem);
         let season = selectedSem.charAt[0] = 'F' ? 'Fall' : 'Spring';
         let year = selectedSem.substring(2,6);
-        console.log(season + ' ' + year);
         createRequest(season, year);
         requestForm.value = false;
     };
@@ -129,8 +116,7 @@ import studentAccomServices from "../services/studentAccomServices";
     
 
     const createRequest = async(season, year) => {
-        //console.log("made it into the createRequest function");
-        //console.log(student.value[0]);
+
         
         user.value = null;
         user.value = Utils.getStore("user");
@@ -140,23 +126,13 @@ import studentAccomServices from "../services/studentAccomServices";
             email: user.value.email,
             //semester: 
         };
-        console.log(data);
         await RequestServices.create(data)
             .then((response) => {
                 
-                console.log(response.data);
             }) 
             .catch((e) => {
-                console.log(e.response.data.message);
             });
-        /*RequestServices.getAllForStudent(student.value.studentId)
-            .then((response) => {
-                console.log(response.data);
-            })
-            .catch((e) => {
-                console.log(e.response.data.message);
-            });
-            */
+
            updateOpenRequestCount();
            getStudentAccoms();
         };
@@ -165,13 +141,10 @@ import studentAccomServices from "../services/studentAccomServices";
         const getStudentAccoms = async()=>{
             await StudentAccomServices.getAllForStudent(student.value.studentId)
             .then((response)=>{
-                console.log("this is the student accom list");
-                console.log(response.data);
+
                 studentAccoms.value = response.data;
-                console.log(studentAccoms);
-                console.log("these are the semesters for each request");
+
                 studentAccoms.value.forEach((item)=>{
-                    console.log(item.semester);
                 })
             })
             .catch((e) =>{
@@ -186,14 +159,13 @@ import studentAccomServices from "../services/studentAccomServices";
             await RequestServices.getAllForStudent(student.value.studentId)
             .then((response) => {
                 allRequests.value = response.data;
-                console.log("this is the openRequests");
-                console.log(allRequests.value);
+ 
+                allRequests.value.forEach((item)=> {
+                    if(item.status == "Open"){
+                        openRequestCount.value++;
+                    };
+                });
                 
-            });
-            allRequests.value.forEach((item)=> {
-                if(item.status == "Open"){
-                    openRequestCount.value++;
-                };
             });
             
             
@@ -205,9 +177,7 @@ import studentAccomServices from "../services/studentAccomServices";
                 semesterAccoms.value.pop();
             })
             studentAccoms.value.forEach((item)=>{
-                //console.log(item.semester.season.substring(0,1));
-                //console.log(item.semester.year.substring(2));
-                console.log(item.semester.season.substring(0,2).toUpperCase() + item.semester.year);
+
                 if(item.semester.season.substring(0,2).toUpperCase() + item.semester.year == selectedSem){
                     semesterAccoms.value.push(item)
                 }
@@ -244,7 +214,7 @@ import studentAccomServices from "../services/studentAccomServices";
             <v-text v-if="openRequest == 0">No open requests.</v-text>
             -->
             <p v-if="openRequestCount == 0"> No open requests.</p>
-            <p v-else>You have {{ openRequestCount }} open requests.</p>
+            <p v-else>You have {{ openRequestCount }} open request{{ openRequestCount > 1 ? 's' : ''}}.</p>
             <!--add a conditional v-else for when open requests > 0 to give a number n of how many requests are open-->
             <!--
             <v-text v-else>{{ openRequest.count }} open requests.</v-text>
