@@ -12,7 +12,7 @@ export default{
         return apiClient.get(baseURL + `studentId/${studentId}`);
     },
     getAllForSemester(semesterId){
-        return apiClient.get(baseURL + `semesterId/${semesterId}`);
+        return apiClient.get(baseURL + `semester/${semesterId}`);
     },
     getAllForAccommodation(accomId){
         return apiClient.get(baseURL + `accomId/${accomId}`);
