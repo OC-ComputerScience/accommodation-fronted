@@ -27,7 +27,6 @@ const apiClient = axios.create({
       if (token != null && token != "") authHeader = "Bearer " + token;
       headers["Authorization"] = authHeader;
     }
-    console.log(JSON.stringify(data));
     return JSON.stringify(data);
   },
   transformResponse: function (data) {

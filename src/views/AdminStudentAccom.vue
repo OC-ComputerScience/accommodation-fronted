@@ -9,10 +9,12 @@
     const tableData = ref([]);
     const noDataMsg = ref(null);
     const showTable = ref(false);
+    const showEmpty = ref(false);
 
     const findAccommodations = async () => {
         tableData.value = [];
         showTable.value = false;
+        showEmpty.value = false;
         if(filterType.value == "Student ID"){ //find by student
             await StudentAccomServices.getAllForStudent(searchValue.value)
                 .then((response) => {
@@ -47,7 +49,10 @@
             };
             tableData.value.push(bridge);
         });
-        showTable.value = true;
+        if(studentAccom.value.length < 1){
+            showEmpty.value = true;
+        }
+        else showTable.value = true;
     }
 
 </script>
@@ -115,6 +120,9 @@
 
                 </div>
             </v-card>
+            <div v-if="showEmpty" class="ma-6 text-center">
+                Sorry, we couldn't find any student accommodations for "{{ searchValue }}". Please adjust the filters and try again.
+            </div>
 
         </div>
     </div>
