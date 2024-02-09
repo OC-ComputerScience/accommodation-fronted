@@ -13,10 +13,6 @@ import AdminUserManage from "./views/AdminUserManage.vue"
 import AdminViewAccom from "./views/AdminViewAccom.vue"
 import AdminStudentAccom from "./views/AdminStudentAccom.vue"
 
-// Import layouts
-import AdminLayout from "./layouts/AdminLayout.vue";
-import StudentLayout from "./layouts/StudentLayout.vue";
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -27,61 +23,46 @@ const router = createRouter({
       component: Login,
     },
     {
-      // Student is the parent path to all student views and routes
-      // It contains the student header and sidebar in StudentLayout
       path: "/student",
-      component: StudentLayout,
-      // All student routes are added as children of /student
-      children: [
-        { 
-          path: '', 
-          name: 'studentHome', 
-          component: StudentHome 
-        },
-      ],
+      name: 'studentHome',
+      component: StudentHome,
     },
     {
       path: "/admin",
-      component: AdminLayout,
-      children: [
-        { 
-          path: '', 
-          name: "adminHome", 
-          component: AdminHome
-        },
-        {
-          // :id is the id of the request which is being added to 
-          path: 'adminAdd/:id',
-          name: 'adminAdd',
-          component: AdminAdd,
-          // props: {route} => {{ request: route.request.requestId}}
-        },
-        {
-          path: 'adminAccomManage/',
-          name: 'adminAccomManage',
-          component: AdminAccomManage,
-        },
-        {
-          path: 'adminCatManage/',
-          name: 'adminCatManage',
-          component: AdminCatManage,
-        },
-        {
-          path: 'adminUserManage/',
-          name: 'adminUserManage',
-          component: AdminUserManage,
-        },
-        {
-          path: 'adminViewAccom/',
-          name: 'adminViewAccom',
-          component: AdminViewAccom,
-        },
-        {
-          path: 'adminStudentAccom/',
-          name: 'adminStudentAccom',
-          component: AdminStudentAccom,
-        },
-      ],
+      name: "adminHome",
+      component: AdminHome,
+    },
+    {
+      // :id is the id of the request which is being added to 
+      path: '/admin/adminAdd/:id',
+      name: 'adminAdd',
+      component: AdminAdd,
+      // props: {route} => {{ request: route.request.requestId}}
+    },
+    {
+      path: '/admin/adminAccomManage/',
+      name: 'adminAccomManage',
+      component: AdminAccomManage,
+    },
+    {
+      path: '/admin/adminCatManage/',
+      name: 'adminCatManage',
+      component: AdminCatManage,
+    },
+    {
+      path: '/admin/adminUserManage/',
+      name: 'adminUserManage',
+      component: AdminUserManage,
+    },
+    {
+      path: '/admin/adminViewAccom/',
+      name: 'adminViewAccom',
+      component: AdminViewAccom,
+    },
+    {
+      path: '/admin/adminStudentAccom/',
+      name: 'adminStudentAccom',
+      component: AdminStudentAccom,
     },
     
     // Leaving these routes for now as an example

@@ -13,6 +13,26 @@ const name = ref("");
 const logoURL = ref("");
 const homePage = ref("");
 
+
+const maintainenceActions = [
+  {
+    title: "Accommodations",
+    component: "adminViewAccom",
+  },
+  {
+    title: "Categories",
+    component: "adminCatManage",
+  },
+  {
+    title: "Users",
+    component: "adminUserManage",
+  },
+  {
+    title: "Semesters",
+    component: "adminSemesterManage",
+  },
+];
+
 const resetMenu = () => {
   user.value = null;
   user.value = Utils.getStore("user");
@@ -68,6 +88,33 @@ onMounted(() => {
         {{ title }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
+
+      <div v-if="user?.role == 'admin'" class="mr-2">
+        <v-btn @click="router.push({ name: 'adminHome'})">
+          Home
+        </v-btn>
+
+        <v-btn @click="router.push({ name: 'adminStudentAccom' })">
+          Student Accommodations
+        </v-btn>
+        <v-btn>
+            Maintain
+
+            <v-menu activator="parent" open-on-hover>
+              <v-list>
+                <v-list-item
+                  v-for="(item, index) in maintainenceActions"
+                  :key="index"
+                  :value="index"
+                  @click="router.push({ name: item.component })"
+                >
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+        </v-btn>
+      </div>
+
       <v-menu bottom min-width="200px" rounded offset-y v-if="user">
         <template v-slot:activator="{ props }">
           <v-btn v-bind="props" icon x-large>

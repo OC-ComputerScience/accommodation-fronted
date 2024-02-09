@@ -53,70 +53,69 @@
 </script>
 <template>
     <div>
-        <v-title class="text-h5" style="font-weight: bold;">View Student Accommodations</v-title>
-    </div>
-    <div class pa-4>
-        <v-card style="background-color:#D5DFE7" class="pa-4">
-            <div>
-               <v-combobox
-                    v-model="filterType"
-                    label="Select Filter"
-                    :items="['Student ID', 'Semester']"
-                    style="width:15rem"
-               ></v-combobox>
-               <p v-if="filterType">{{ filterType }}</p>
-                <v-text-field v-if="filterType=='Student ID'"
-                    v-model="searchValue"
-                    style="width: 20rem"
-                ></v-text-field>
+        <div class="text-h5" style="font-weight: bold;">View Student Accommodations</div>
+        <div class pa-4>
+            <v-card style="background-color:#D5DFE7" class="pa-4">
+                <div>
                 <v-combobox
-                    v-if="filterType=='Semester'"
-                    v-model="searchValue"
-                    :items="['FA2023', 'SP2023']"
-                    style="width:15rem"
+                        v-model="filterType"
+                        label="Select Filter"
+                        :items="['Student ID', 'Semester']"
+                        style="width:15rem"
                 ></v-combobox>
-                <v-btn 
-                    variant="elevated"
-                    @click="findAccommodations()"
-                    rounded="lg"
-                    style="background-color: #118ACB;
-                           color: white"
-                >
-                    Find Accommodations
-                </v-btn>
-            </div>
-            <div class="ma-4">
-                <p v-if="noDataMsg.value">{{ noDataMsg.value }}</p>
-                <v-table
-                v-if="tableData.length > 0"
-                fixed-header
-                height = "20%"
-                >
-                <thead>
-                    <tr>
-                    <th>Name</th>
-                    <th>Student ID</th>
-                    <th>Semester</th>
-                    <th>Accommodation</th> 
-                    <th>Category</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr
-                    v-for="data in tableData"
-                    :key="data.studentId">
-                    <td>{{ data.uName }}</td>
-                    <td>{{ data.id }}</td>
-                    <td>{{ data.semester }}</td>
-                    <td>{{ data.type }}</td>
-                    <td>{{ data.category }}</td>
-                    </tr>
-                </tbody>
-                </v-table>
+                <p v-if="filterType">{{ filterType }}</p>
+                    <v-text-field v-if="filterType=='Student ID'"
+                        v-model="searchValue"
+                        style="width: 20rem"
+                    ></v-text-field>
+                    <v-combobox
+                        v-if="filterType=='Semester'"
+                        v-model="searchValue"
+                        :items="['FA2023', 'SP2023']"
+                        style="width:15rem"
+                    ></v-combobox>
+                    <v-btn 
+                        variant="elevated"
+                        @click="findAccommodations()"
+                        rounded="lg"
+                        style="background-color: #118ACB;
+                            color: white"
+                    >
+                        Find Accommodations
+                    </v-btn>
+                </div>
+                <div class="ma-4">
+                    <p v-if="noDataMsg">{{ noDataMsg }}</p>
+                    <v-table
+                    v-if="tableData.length > 0"
+                    fixed-header
+                    height = "20%"
+                    >
+                    <thead>
+                        <tr>
+                        <th>Name</th>
+                        <th>Student ID</th>
+                        <th>Semester</th>
+                        <th>Accommodation</th> 
+                        <th>Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                        v-for="data in tableData"
+                        :key="data.studentId">
+                        <td>{{ data.uName }}</td>
+                        <td>{{ data.id }}</td>
+                        <td>{{ data.semester }}</td>
+                        <td>{{ data.type }}</td>
+                        <td>{{ data.category }}</td>
+                        </tr>
+                    </tbody>
+                    </v-table>
 
-            </div>
-        </v-card>
+                </div>
+            </v-card>
 
+        </div>
     </div>
-
 </template>
