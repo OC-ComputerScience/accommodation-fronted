@@ -55,6 +55,10 @@
     function newAccom(){
         router.push({ name: 'adminAccomManage'});
     }
+    function editAccom(x){
+        console.log('test',x);
+        router.push({ name: 'adminEditAccom', params: {accomID: x}});
+    }
 </script>
 
 <template>
@@ -95,7 +99,7 @@
                 <td class="pa-4">
                     <v-btn class="mr-4" color="error" style="float:right" @click="deleteUser(a.accomId)">delete</v-btn>
                     <v-btn class="mr-4" color="#F9C634" style="float:right" @click="save(a, index)">save</v-btn>
-                    <v-btn class="mr-4" color="black" style="float:right">edit</v-btn>
+                    <v-btn class="mr-4" color="black" style="float:right" @click="editAccom(a.accomId)">edit</v-btn>
 
                 </td>
             </tr>

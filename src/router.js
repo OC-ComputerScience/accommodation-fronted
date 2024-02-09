@@ -14,6 +14,7 @@ import AdminCatAdd from "./views/AdminCatAdd.vue"
 import AdminUserManage from "./views/AdminUserManage.vue"
 import AdminViewAccom from "./views/AdminViewAccom.vue"
 import AdminStudentAccom from "./views/AdminStudentAccom.vue"
+import AdminEditAccom from "./views/AdminEditAccom.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -83,6 +84,12 @@ const router = createRouter({
       path: "/StudentHome/:studentId",
       name: "StudentHome",
       component: StudentHome,
+      props: true,
+    },
+    {
+      path: 'adminEditAccom/:accomID',
+      name: 'adminEditAccom',
+      component: AdminEditAccom,
       props: true,
     },
   ],
