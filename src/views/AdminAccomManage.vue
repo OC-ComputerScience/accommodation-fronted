@@ -77,7 +77,7 @@
 
         <div class="ma-6">
             <v-btn class="mr-4" color="button_blue" style="float:right" @click="save()">save</v-btn>
-            <v-btn class="ml-4 mr-2" color="grey" style="float:right" @click="cancel()">cancel</v-btn>
+            <v-btn class="ml-4 mr-2" color="primary" style="float:right" @click="cancel()">cancel</v-btn>
             
         </div>
     </div>
