@@ -52,13 +52,13 @@ const router = createRouter({
       component: AdminCatManage,
     },
     {
-      path: 'adminCatEdit/:accomCatId',
+      path: '/adminCatEdit/:accomCatId',
       name: 'adminCatEdit',
       component: AdminCatEdit,
       props: true,
     },
     {
-      path: 'adminCatAdd/',
+      path: '/adminCatAdd/',
       name: 'adminCatAdd',
       component: AdminCatAdd,
     },

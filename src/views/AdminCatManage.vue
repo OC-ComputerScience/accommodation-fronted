@@ -69,7 +69,7 @@
         <v-title class="text-h5" style="font-weight: bold;">Manage Categories</v-title>
     </div>
     <div>
-        <v-btn class="mr-4" color="success" style="float:right" @click="addCat()">New Category</v-btn>
+        <v-btn class="mr-4" color="#800000" style="float:right" @click="addCat()">New Accommodation Category</v-btn>
     </div>
     <div class="pa-4">
         <v-table>
@@ -90,8 +90,8 @@
                 <td>
                
 
-                    <v-btn class="mr-4" color="error" style="float:right" @click="deleteCat(a.accomCatId)">delete</v-btn>
-                    <v-btn class="mr-4" color="#F9C634" style="float:right" @click="editCat(a.accomCatId)">edit</v-btn>
+                    <v-btn class="mr-4" color="primary" style="float:right" @click="deleteCat(a.accomCatId)">delete</v-btn>
+                    <v-btn class="mr-4" color="button_blue" style="float:right" @click="editCat(a.accomCatId)">edit</v-btn>
                      </td>
             </tr>
         </v-table>
