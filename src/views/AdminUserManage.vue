@@ -89,8 +89,8 @@
                 </td>
                 <td>{{ u.studentId }}</td>
                 <td class="pa-4">
-                    <v-btn class="mr-4" color="error" style="float:right" @click="deleteUser(u.id)">delete</v-btn>
-                    <v-btn class="mr-4" color="#F9C634" style="float:right" @click="save(u, index)">save</v-btn>
+                    <v-btn class="mr-4" color="primary" style="float:right" @click="deleteUser(u.id)">delete</v-btn>
+                    <v-btn class="mr-4" color="button_blue" style="float:right" @click="save(u, index)">save</v-btn>
                 </td>
             </tr>
         </v-table>

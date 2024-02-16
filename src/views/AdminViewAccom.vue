@@ -62,6 +62,10 @@
         <v-title class="text-h5" style="font-weight: bold;">View Accommodations</v-title>
     </div>
 
+    <div>
+        <v-btn class="mr-4" color="#800000" style="float:right" @click="newAccom()">New Accommodation</v-btn>
+    </div>
+
     <div class="pa-4">
         <v-table>
             <thead>
@@ -89,13 +93,11 @@
                     ></v-combobox>
                 </td>
                 <td class="pa-4">
-                    <v-btn class="mr-4" color="error" style="float:right" @click="deleteUser(a.accomId)">delete</v-btn>
-                    <v-btn class="mr-4" color="#F9C634" style="float:right" @click="save(a, index)">save</v-btn>
+                    <v-btn class="mr-4" color="primary" style="float:right" @click="deleteUser(a.accomId)">delete</v-btn>
+                    <v-btn class="mr-4" color="button_blue" style="float:right" @click="save(a, index)">save</v-btn>
                 </td>
             </tr>
         </v-table>
     </div>
-    <div>
-        <v-btn class="mr-4" color="success" style="float:right" @click="newAccom()">New Accommodation</v-btn>
-    </div>
+    
 </template>
