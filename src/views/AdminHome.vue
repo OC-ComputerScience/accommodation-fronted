@@ -77,6 +77,10 @@ const filterClosedRequests = () => {
   })
   closedRequests.value = filteredReqs;
   showFilterMenu.value = false
+
+  if(filteredReqs.length < 1)  {
+    closedReqBool.value = false;
+  }
 }
 
 const clearFilters = () => {
@@ -84,6 +88,7 @@ const clearFilters = () => {
   studentNameFilter.value = null
   closedRequests.value = unfilteredClosedRequests.value
   showFilterMenu.value = false
+  closedReqBool.value = true
 }
 
 const formatDate = (date) => {
@@ -277,7 +282,7 @@ const closeRequest = (request) => {
           <tbody>
             <tr
               v-for="request in closedRequests"
-              :key="request.studentId">
+              :key="request.id">
               <td>{{ `${request.student.fName} ${request.student.lName}` }}</td>
               <td>{{ request.studentId }}</td>
               <td>{{ request.student.email }}</td>
@@ -291,7 +296,7 @@ const closeRequest = (request) => {
           color="silver"
           class="pa-4 mt-2"
         >
-          <p>No closed requests{{semesterFilter || studendIdFilter ? " for the current filter selection" : ""}}.</p>
+          <p>No closed requests{{semesterFilter || studentNameFilter ? " for the current filter selection" : ""}}.</p>
         </v-card>
     </v-container>
     
@@ -306,7 +311,6 @@ const closeRequest = (request) => {
       @cancel="(closeModal=false),(selectedRequest=null)" />      
   </v-dialog>
 
-  <AdminAdd :requestProp="requestData"></AdminAdd>
   </template>
 <style>
 </style>
