@@ -9,6 +9,8 @@ import StudentHome from "./views/StudentHome.vue";
 import AdminAdd from "./views/AdminAdd.vue"
 import AdminAccomManage from "./views/AdminAccomManage.vue"
 import AdminCatManage from "./views/AdminCatManage.vue"
+import AdminCatEdit from "./views/AdminCatEdit.vue"
+import AdminCatAdd from "./views/AdminCatAdd.vue"
 import AdminUserManage from "./views/AdminUserManage.vue"
 import AdminViewAccom from "./views/AdminViewAccom.vue"
 import AdminStudentAccom from "./views/AdminStudentAccom.vue"
@@ -65,6 +67,17 @@ const router = createRouter({
           path: 'adminCatManage/',
           name: 'adminCatManage',
           component: AdminCatManage,
+        },
+        {
+          path: 'adminCatEdit/:accomCatId',
+          name: 'adminCatEdit',
+          component: AdminCatEdit,
+          props: true,
+        },
+        {
+          path: 'adminCatAdd/',
+          name: 'adminCatAdd',
+          component: AdminCatAdd,
         },
         {
           path: 'adminUserManage/',
