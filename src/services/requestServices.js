@@ -11,8 +11,8 @@ export default{
     getAllForStudent(studentId){
         return apiClient.get(baseURL + `studentReq/${studentId}`);
     },
-    getAllForStatus(status){
-        return apiClient.get(baseURL + `statusReq/${status}`);
+    getAllForStatus(status, semesterId, studentId){
+        return apiClient.get(baseURL + `statusReq/${status}?semesterId=${semesterId ? semesterId : '' }&studentId=${studentId ? studentId : ''}`);
     },
     create(data){
         return apiClient.post(baseURL, data);
