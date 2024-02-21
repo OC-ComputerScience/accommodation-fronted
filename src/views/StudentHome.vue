@@ -1,282 +1,257 @@
 <script setup>
-/*DANIEL
-* Sorry I changed some stuff around in here. Had to make it work with modern vue conventions.
-* - Eli
-* - this better work
-*/
-    import RequestForm from "../components/RequestForm.vue";
-    import Permissions from "../components/Permissions.vue";
-    import router from "../router";
-    import { onMounted, ref } from "vue";
-    import RequestServices from "../services/requestServices";
-    import StudentServices from "../services/studentServices";
-    import StudentAccomServices from "../services/studentAccomServices";
-    import Utils from "../config/utils";
-import studentAccomServices from "../services/studentAccomServices";
+import RequestForm from "../components/RequestForm.vue";
+import Permissions from "../components/Permissions.vue";
 
-    const user = ref(null);
-    const requestForm = ref(false);
-    const permissions = ref(false);
-    const student = ref({});
-    const allRequests = ref([]);
-    const studentAccoms = ref([]);
-    const semesterAccoms = ref([]);
-    const openRequestCount = ref(0);
-    // Note: Semesters ought to be populated by calling the API and retrieving existing semester objects
-    const Semesters = ['FA2023', 'SP2023', 'FA2022', 'SP2022']; 
-    const semesterType = ref();
+import router from "../router";
+import { onActivated, onMounted, ref, watch } from "vue";
+import RequestServices from "../services/requestServices";
+import StudentServices from "../services/studentServices";
+import StudentAccomServices from "../services/studentAccomServices";
+import Utils from "../config/utils";
+import SemesterServices from "../services/semesterServices";
+import userServices from "../services/userServices";
 
-    onMounted(async () => {
-        await findStudent();
-        await updateOpenRequestCount();
-        await getStudentAccoms();
+const user = ref(null);
+const requestForm = ref(false);
+const noPermission = ref(false);
+const student = ref({});
+const allRequests = ref([]);
+const studentAccoms = ref([]);
+const filteredSemesterAccoms = ref([]);
+const semesterAccoms = ref([]);
+const openRequestCount = ref(0);
+const selectedSemId = ref();
 
+const semesters = ref([]);
+const semesterType = ref();
+
+var tableHeaders = [
+  { title: "Semester", key: "semester.semester" },
+  { title: "Category", key: "accommodation.categoryName" },
+  { title: "Title", key: "accommodation.title" },
+];
+
+onActivated(async () => {
+  user.value = Utils.getStore("user");
+  await findStudent();
+  await getSemesters();
+  await updateOpenRequestCount();
+  await getStudentAccoms();
+});
+onMounted(async () => {
+  user.value = Utils.getStore("user");
+  await findStudent();
+  await getSemesters();
+  await updateOpenRequestCount();
+  await getStudentAccoms();
+});
+
+const getSemesters = async () => {
+  await SemesterServices.getAllSemesters()
+    .then((response) => {
+      semesters.value = response.data;
     })
+    .catch((e) => {
+      console.log(e.response);
+    });
+};
 
-    //STUDENT PERMISSION METHODS
-    //retrieve student via user email
-    const findStudent = async() => {
-        user.value = null;
-        user.value = Utils.getStore("user");
-        await StudentServices.getEmail(user.value.email)
-            .then((response) => {
-                student.value = response.data;
-                if(!student.value.permission){
-                    permissions.value = true;
-                }
-            })
-            .catch(async (err) => {
-                if(err.response && err.response.status === 404){
-                    permissions.value = true;
-                }
-            });
+//STUDENT noPermission METHODS
 
-    }
-
-    const createStudent = async (studentId) => {
-        user.value = null;
-        user.value = Utils.getStore("user");
-        const data = {
-            studentId: studentId,
-            fName: user.value.fName,
-            lName: user.value.lName,
-            email: user.value.email,
-            permission: 1,
-            version: 1.1,
-        };
-        await StudentServices.create(data)
-            .catch((err) => {
-                console.error(err);
-            });
-        student.value = null;
-        await StudentServices.getOne(studentId)
-            .then((response) => {
-                student.value = response.data;
-            });
-        return student;
-    }
-
-    const addConsent = async (studentId) => {
-        student.value = null;
-        await StudentServices.getOne(studentId)
-            .then(async (response) => {
-                student.value = response.data;
-                const data = {
-                    permission: 1,
-                    dateSigned: new Date()
-                };
-                user.value = null;
-                user.value = Utils.getStore("user");
-                await StudentServices.update(studentId, data);
-            })
-            .catch(async (err) => {
-                if(err.response && err.response.status === 404){
-                    await createStudent(studentId)
-                        .then((response) => {
-                            student.value = response.data;
-                        });
-                }
-            });
-        permissions.value = false;
-    }
-    //END STUDENT PERMISSION METHODS
-
-    //CREATE REQUEST METHODS
-    const handleCreate = (selectedSem) => {
-        let season = selectedSem.charAt[0] = 'F' ? 'Fall' : 'Spring';
-        let year = selectedSem.substring(2,6);
-        createRequest(season, year);
-        requestForm.value = false;
-    };
-
-    const handleSelectedSemester = () => {
-        console.log(semesterType);
-        
-    }
-    
-
-    const createRequest = async(season, year) => {
-
-        
-        user.value = null;
-        user.value = Utils.getStore("user");
-        const data = {
-            season: season,
-            year: year,
-            email: user.value.email,
-            //semester: 
-        };
-        await RequestServices.create(data)
-            .then((response) => {
-                
-            }) 
-            .catch((e) => {
-            });
-
-           updateOpenRequestCount();
-           getStudentAccoms();
-        };
-        
-       
-        const getStudentAccoms = async()=>{
-            await StudentAccomServices.getAllForStudent(student.value.studentId)
-            .then((response)=>{
-
-                studentAccoms.value = response.data;
-
-                studentAccoms.value.forEach((item)=>{
-                })
-            })
-            .catch((e) =>{
-                console.log(e.response)
-            })
-
-        };
-
-
-        const updateOpenRequestCount = async()=> {
-            openRequestCount.value = 0;
-            await RequestServices.getAllForStudent(student.value.studentId)
-            .then((response) => {
-                allRequests.value = response.data;
- 
-                allRequests.value.forEach((item)=> {
-                    if(item.status == "Open"){
-                        openRequestCount.value++;
-                    };
-                });
-                
-            });
-            
-            
-        };
-        
-        const updateSemesterRequest = async(selectedSem)=>{
-            //semesterAccoms.value = []; 
-            semesterAccoms.value.forEach((item)=>{
-                semesterAccoms.value.pop();
-            })
-            studentAccoms.value.forEach((item)=>{
-
-                if(item.semester.season.substring(0,2).toUpperCase() + item.semester.year == selectedSem){
-                    semesterAccoms.value.push(item)
-                }
-            })
-            
+const findStudent = async () => {
+  if (user.value.studentId) {
+    await StudentServices.getOne(user.value.studentId)
+      .then((response) => {
+        console.log(response.data);
+        student.value = response.data;
+        noPermission.value = !student.value.permission;
+      })
+      .catch(async (err) => {
+        if (err.response && err.response.status === 404) {
+          console.log("Error reading student" + err);
         }
-    
-    //END CREATE REQUEST METHODS
+      });
+  } else {
+    noPermission.value = true;
+  }
+};
 
+const createStudent = async (ocStudentId) => {
+  user.value = Utils.getStore("user");
+  const data = {
+    ocStudentId: ocStudentId,
+    fName: user.value.fName,
+    lName: user.value.lName,
+    email: user.value.email,
+    permission: 1,
+    version: 1.1,
+  };
+  await StudentServices.create(data)
+    .then(async (response) => {
+      student.value = response.data;
+      await userServices.update(user.value.userId, {
+        studentId: student.value.studentId,
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+
+  return student;
+};
+
+const addConsent = async (ocStudentId) => {
+  console.log("ocStudentId", ocStudentId);
+  if (user.value.studentId) {
+    let studentData = {
+      permission: 1,
+      dateSigned: new Date(),
+      ocStudentId: ocStudentId,
+    };
+    await StudentServices.update(user.value.studentId, studentData).catch(
+      (err) => {
+        console.log(err);
+      }
+    );
+  } else {
+    await createStudent(ocStudentId)
+      .then((response) => {
+        student.value = response.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  noPermission.value = false;
+};
+
+//END STUDENT noPermission METHODS
+
+//CREATE REQUEST METHODS
+const handleCreate = (selectedSemId) => {
+  createRequest(selectedSemId);
+  requestForm.value = false;
+};
+
+const createRequest = async (selectedSemId) => {
+  const data = {
+    semesterId: selectedSemId.semesterId,
+    studentId: student.value.studentId,
+  };
+
+  await RequestServices.create(data)
+    .then((response) => {})
+    .catch((e) => {
+      console.log(e.response);
+    });
+
+  updateOpenRequestCount();
+};
+
+const getStudentAccoms = async () => {
+  await StudentAccomServices.getAllForStudent(student.value.studentId)
+    .then((response) => {
+      studentAccoms.value = response.data;
+      filteredSemesterAccoms.value = studentAccoms.value;
+    })
+    .catch((e) => {
+      console.log(e.response);
+    });
+};
+
+const fileterRequestBySemester = () => {
+  if (selectedSemId.value == null) {
+    filteredSemesterAccoms.value = studentAccoms.value;
+    return;
+  }
+  filteredSemesterAccoms.value = studentAccoms.value.filter(
+    (item) => item.semesterId == selectedSemId.value.semesterId
+  );
+};
+
+const updateOpenRequestCount = async () => {
+  openRequestCount.value = 0;
+  await RequestServices.getAllForStudent(student.value.studentId).then(
+    (response) => {
+      allRequests.value = response.data;
+
+      allRequests.value.forEach((item) => {
+        if (item.status == "Open") {
+          openRequestCount.value++;
+        }
+      });
+    }
+  );
+};
+watch(selectedSemId, () => {
+  fileterRequestBySemester();
+});
+
+//END CREATE REQUEST METHODS
 </script>
 
-<template>    
-    <div class="pa-5">
-        <div class="pa-7">
-            <p  class="text-h6 text-left">
-                My Requests
-                <v-btn 
-                    @click="requestForm = true" 
-                    class="mr-15" 
-                    rounded="lg" 
-                    elevation="2" 
-                    style="background-color:#118ACB; 
-                        color:white; 
-                        float:right"
-                    >
-                    MAKE A REQUEST
-                </v-btn>
-            </p>
-            
-        </div>
-        <v-card class="pa-7 mr-15" style="background-color: #D5DFE7;">
-            <!--add a conditional v-if for when open request = 0 to say no open requests-->
-            <!--
-            <v-text v-if="openRequest == 0">No open requests.</v-text>
-            -->
-            <p v-if="openRequestCount == 0"> No open requests.</p>
-            <p v-else>You have {{ openRequestCount }} open request{{ openRequestCount > 1 ? 's' : ''}}.</p>
-            <!--add a conditional v-else for when open requests > 0 to give a number n of how many requests are open-->
-            <!--
-            <v-text v-else>{{ openRequest.count }} open requests.</v-text>
-        -->
-        </v-card>
-        <div class="pa-7">
+<template>
+  <div class="pa-5">
+    <div>
+      <p class="text-h6 text-left">Hello, {{ user.fName }}!</p>
+      <p class="text-h6 mt-4 text-left">
+        My Requests
         <v-btn
-            @click = "updateSemesterRequest(semesterType)"
-           class="mr-15" 
-           rounded="lg" 
-           elevation="2" 
-           style="background-color:#118ACB; 
-               color:white; 
-               float:right">Choose Semester</v-btn>
-
-            <p  class="text-h6 text-left">
-                My Accomodations.
-                <!--
-                <v-btn 
-                    @click="requestForm = true" 
-                    class="mr-15" 
-                    rounded="lg" 
-                    elevation="2" 
-                    style="background-color:#118ACB; 
-                        color:white; 
-                        float:right"
-                    >
-                    MAKE A REQUEST
-                </v-btn>-->
-                <v-combobox label="Semester"
-                 v-model="semesterType"
-                 :items = "Semesters" 
-                 style = "width:15rem" 
-                 class = "semesterBox"
-                 ></v-combobox>
-
-            </p>
-        </div>
-        <v-card class="pa-7 mr-15" style="background-color: #D5DFE7;">
-        <p v-if="semesterAccoms.length == 0">You have no accommodations for this semester.</p>
-        <li v-for="item in semesterAccoms">{{ item.data }}</li>
-        </v-card>
-        <v-dialog
-            v-model="requestForm"
-            width="auto"
-            >
-            <RequestForm 
-                :semesters="Semesters"
-                @createRequest="handleCreate"
-                @cancel="(requestForm = false)"
-            />
-        </v-dialog>
-        <v-dialog
-            persistent
-            v-model="permissions"
-            width="auto"    
+          @click="requestForm = true"
+          class="mr-15"
+          rounded="lg"
+          elevation="2"
+          style="background-color: #118acb; color: white; float: right"
         >
-            <Permissions
-                @signedForm="addConsent" 
-                @cancel="router.push({name: 'login'})"
-            />
-        </v-dialog>
+          MAKE A REQUEST
+        </v-btn>
+      </p>
     </div>
-    
+    <v-card class="pa-7 mt-5 mr-15" style="background-color: #d5dfe7">
+      <p v-if="openRequestCount == 0">No open requests.</p>
+      <p v-else>
+        You have {{ openRequestCount }} open request{{
+          openRequestCount > 1 ? "s" : ""
+        }}.
+      </p>
+    </v-card>
+
+    <p class="mt-5 text-h6 text-left">
+      My Accomodations
+      <v-combobox
+        label="Semester"
+        v-model="selectedSemId"
+        :items="semesters"
+        item-title="semester"
+        item-value="semesterId"
+        style="width: 15rem"
+        class="semesterBox mt-3"
+        return-object
+        clearable
+      ></v-combobox>
+    </p>
+
+    <v-card class="mt-3 pa-7 mr-15" style="background-color: #d5dfe7">
+      <p v-if="filteredSemesterAccoms.length == 0">
+        You have no accommodations for this semester.
+      </p>
+      <v-data-table
+        :items="filteredSemesterAccoms"
+        :headers="tableHeaders"
+      ></v-data-table>
+    </v-card>
+    <v-dialog v-model="requestForm" width="auto">
+      <RequestForm
+        :semesters="semesters"
+        @createRequest="handleCreate"
+        @cancel="requestForm = false"
+      />
+    </v-dialog>
+    <v-dialog persistent v-model="noPermission" width="auto">
+      <Permissions
+        @signedForm="addConsent"
+        @cancel="router.push({ name: 'login' })"
+      />
+    </v-dialog>
+  </div>
 </template>
