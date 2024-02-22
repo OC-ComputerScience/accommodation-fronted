@@ -62,7 +62,6 @@ const findStudent = async () => {
   if (user.value.studentId) {
     await StudentServices.getOne(user.value.studentId)
       .then((response) => {
-        console.log(response.data);
         student.value = response.data;
         noPermission.value = !student.value.permission;
       })
@@ -101,7 +100,6 @@ const createStudent = async (ocStudentId) => {
 };
 
 const addConsent = async (ocStudentId) => {
-  console.log("ocStudentId", ocStudentId);
   if (user.value.studentId) {
     let studentData = {
       permission: 1,
