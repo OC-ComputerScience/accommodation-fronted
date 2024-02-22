@@ -3,7 +3,7 @@ import RequestForm from "../components/RequestForm.vue";
 import Permissions from "../components/Permissions.vue";
 
 import router from "../router";
-import { onActivated, onMounted, ref, watch } from "vue";
+import { onActivated, onBeforeMount, ref, watch } from "vue";
 import RequestServices from "../services/requestServices";
 import StudentServices from "../services/studentServices";
 import StudentAccomServices from "../services/studentAccomServices";
@@ -38,7 +38,7 @@ onActivated(async () => {
   await updateOpenRequestCount();
   await getStudentAccoms();
 });
-onMounted(async () => {
+onBeforeMount(async () => {
   user.value = Utils.getStore("user");
   await findStudent();
   await getSemesters();
