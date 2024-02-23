@@ -6,17 +6,20 @@ export default{
         return apiClient.get(baseURL);
     },
     getOne(accomCatId){
-        return apiClient.get(baseURL + `category/${accomCatId}`);
+        console.log("recieved accomCatId:" + `${accomCatId}`);
+        console.log("Requesting get @ " + baseURL + `${accomCatId}`);
+        return apiClient.get(baseURL + `${accomCatId}`);
+        
     },
     create(data){
         return apiClient.post(baseURL, data);
     },
-    update(studentAccomId, data){
-        return apiClient.put(baseURL + `${studentAccomId}`, data);
+    update(accomCatId, data){
+        return apiClient.put(baseURL + `${accomCatId}`, data);
     },
-    delete(studentAccomId){
-        console.log('deleting ' + studentAccomId);
-        return apiClient.delete(baseURL+`${studentAccomId}`);
+    delete(accomCatId){
+        console.log('deleting ' + accomCatId);
+        return apiClient.delete(baseURL+`${accomCatId}`);
     },
     deleteAll(){
         console.log('deleting all');

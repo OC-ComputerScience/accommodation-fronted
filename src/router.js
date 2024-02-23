@@ -9,6 +9,8 @@ import StudentHome from "./views/StudentHome.vue";
 import AdminAdd from "./views/AdminAdd.vue"
 import AdminAccomManage from "./views/AdminAccomManage.vue"
 import AdminCatManage from "./views/AdminCatManage.vue"
+import AdminCatEdit from "./views/AdminCatEdit.vue"
+import AdminCatAdd from "./views/AdminCatAdd.vue"
 import AdminUserManage from "./views/AdminUserManage.vue"
 import AdminViewAccom from "./views/AdminViewAccom.vue"
 import AdminStudentAccom from "./views/AdminStudentAccom.vue"
@@ -50,6 +52,17 @@ const router = createRouter({
       component: AdminCatManage,
     },
     {
+      path: '/adminCatEdit/:accomCatId',
+      name: 'adminCatEdit',
+      component: AdminCatEdit,
+      props: true,
+    },
+    {
+      path: '/adminCatAdd/',
+      name: 'adminCatAdd',
+      component: AdminCatAdd,
+    },
+    {
       path: '/admin/adminUserManage/',
       name: 'adminUserManage',
       component: AdminUserManage,
@@ -65,36 +78,7 @@ const router = createRouter({
       component: AdminStudentAccom,
     },
     
-    // Leaving these routes for now as an example
-    /*{
-      path: "/edit/:id",
-      name: "edit",
-      component: EditTutorial,
-      props: true,
-    },
-    {
-      path: "/add",
-      name: "add",
-      component: AddTutorial,
-    },
-    {
-      path: "/view/:id",
-      name: "view",
-      component: ViewTutorial,
-      props: true,
-    },
-    {
-      path: "/addLesson/:tutorialId",
-      name: "addLesson",
-      component: AddLesson,
-      props: true,
-    },
-    {
-      path: "/editLesson/:tutorialId/:lessonId",
-      name: "editLesson",
-      component: EditLesson,
-      props: true,
-    },*/
+  
     {
       path: "/StudentHome/:studentId",
       name: "StudentHome",

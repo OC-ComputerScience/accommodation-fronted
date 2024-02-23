@@ -8,11 +8,13 @@ import ocLogo from "/oc-logo-docked.svg";
     <v-img class="right-aligned" :src="ocLogo" width="140"></v-img>
   </v-app-bar>
   <v-sheet color="sidebar" height="10"></v-sheet>
-  <v-container>
+  <v-card>
     <br /><br />
-    <v-header class="text-h1">Welcome!</v-header><br />
-    <v-subheader class="text-h4">Student ADA Accommodations Portal</v-subheader>
-    <br /><br /><br /><br /><br />
+    <v-card-text class="my-10 text-h1">Welcome!</v-card-text>
+    <br />
+    <v-card-text class="my-10 text-h4"
+      >Student ADA Accommodations System</v-card-text
+    >
     <v-sheet class="mx-auto" height="60" width="420">
       <v-row align="center" justify="center" style="height: 100%">
         <v-col cols="12" sm="8" md="6">
@@ -20,8 +22,7 @@ import ocLogo from "/oc-logo-docked.svg";
         </v-col>
       </v-row>
     </v-sheet>
-    <br /><br />
-  </v-container>
+  </v-card>
 </template>
 
 <style scoped>

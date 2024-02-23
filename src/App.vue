@@ -2,7 +2,7 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import MenuBar from "./components/MenuBar.vue";
-import router from "./router"
+import router from "./router";
 //import SideBar from "./components/SideBar.vue";
 // Removed from script:
 /*
@@ -13,11 +13,10 @@ import router from "./router"
 
 <template>
   <v-app>
-    
     <v-main>
       <MenuBar v-if="$route.fullPath != '/'" />
       <v-container>
-        <router-view />
+        <router-view :key="$route.fullPath"></router-view>
       </v-container>
     </v-main>
   </v-app>
