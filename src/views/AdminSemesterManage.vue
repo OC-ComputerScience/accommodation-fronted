@@ -1,39 +1,101 @@
 <script setup>
-    import accomSemesterServices from "../services/accomSemesterServices";
-    import { ref } from 'vue';
+    import AccomSemesterServices from "../services/accomSemesterServices";
+    import { onMounted, ref } from 'vue';
     import router from '../router';
 
-    let textName = ref('');
+    const semesters = ref([]);
+    const semester = ref("");
+    const message = ref("");
+
+    async function getAllSemesters() {
+        try {
+            const response = await AccomSemesterServices.getAll();
+            semesters.value = response.data;
+            console.log('Semesters:', semesters.value);
+        } catch (err) {
+            console.error('Error fetching semesters:', err); 
+        }
+    }
     
-    function save(){
-        let semesterData = {
-            name: textName.value,
-        };
-        accomSemesterServices.create(semesterData);
-        this.router.go()
-    }
-    function cancel(){
-        router.push({ name: 'adminHome'});
-    }
+    const deleteSemester = (semesterToDelete) => {
+        AccomSemesterServices.delete(semesterToDelete.id)
+        .then((response) => {
+            semesters.value = response.data;
+            console.log("Delete Successful");
+            getAllSemesters();
+        })
+        .catch((e) => {
+            if (e.response) {
+                message.value = e.response.data.message;
+                console.log("Delete NOT Successful:", e.response.data.message);
+            } else {
+                console.error("Delete NOT Successful: Unknown error occurred");
+            }
+        });
+    };
+
+    
+    const editSemester = (semester) => {
+        AccomSemesterServices.update(semester.id)
+        .then((response) => {
+            semesters.value = response.data;
+        })
+        .catch((e) => {
+            message.value = e.response.data.message;
+        })
+    };
+
+    const addSemester = () => {
+        router.push({name: ''});
+        // AccomSemesterServices.addSemester(data) 
+        //     .then((response) => {
+        //         semesters.value = response.data;
+        //         console.log(response.data);
+        //     })
+        //     .catch((e) => {
+        //         message.value = e.response.data.message;
+        //     })
+    };
+    
+    onMounted(async() => {
+        getAllSemesters();
+    });
+    
 </script>
 
 <template>
     <div>
         <v-title class="text-h5" style="font-weight: bold;">Manage Semesters</v-title>
     </div>
+        <br>
+    <div>
+        <v-btn class="mr-4" color="success" style="float:right" @click="addSemester()">Add Semester</v-btn>
+    </div>
+    <br>
 
     <div class="pa-4">
-        
-        <v-card style="background-color:#D5DFE7" class="pa-4">
-            <div>
-                <p class="pl-5" style="font-weight: bold;">Semester Name</p>
-                <v-text-field class="pl-5 pr-5" label="name of semester" v-model="textName"></v-text-field>
-            </div>
-        </v-card>
+        <v-table>
+                <thead>
+                    <tr>
+                        <th class="text-left">
+                            Semester
+                        </th>
+                        <!-- <th class="text-left">
+                            Year
+                        </th> -->
+                    </tr>
+                </thead>
 
-        <div class="ma-6">
-            <v-btn class="ml-4" style="float:right" @click="cancel()">cancel</v-btn>
-            <v-btn class="mr-4" color="#F9C634" style="float:right" @click="save()">save</v-btn>
-        </div>
+            <!-- <tr v-for="(semester, index) in semesters" style="background-color: #D5DFE7;"> -->
+            <tr v-for="semester in semesters" style="background-color: #D5DFE7;">
+                <td class="pa-4">{{ semester.semester }}</td>
+                <!-- <td>{{ semester.year }} </td> -->
+
+                <td class="pa-4">
+                    <v-btn class="mr-4" color="error" style="float:right" @click="deleteSemester(semester)">delete</v-btn>
+                    <v-btn class="mr-4" color="#F9C634" style="float:right" @click="editSemester(semester)">edit</v-btn>
+                </td>
+            </tr>
+        </v-table>
     </div>
 </template>

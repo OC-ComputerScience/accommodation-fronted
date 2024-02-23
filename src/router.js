@@ -6,13 +6,13 @@ import Login from "./views/Login.vue";
 
 import AdminHome from "./views/AdminHome.vue";
 import StudentHome from "./views/StudentHome.vue";
-import AdminAdd from "./views/AdminAdd.vue"
-import AdminAccomManage from "./views/AdminAccomManage.vue"
-import AdminCatManage from "./views/AdminCatManage.vue"
-import AdminUserManage from "./views/AdminUserManage.vue"
-import AdminViewAccom from "./views/AdminViewAccom.vue"
-import AdminStudentAccom from "./views/AdminStudentAccom.vue"
-import AdminSemesterManage from "./views/AdminSemesterManage.vue"
+import AdminAdd from "./views/AdminAdd.vue";
+import AdminAccomManage from "./views/AdminAccomManage.vue";
+import AdminCatManage from "./views/AdminCatManage.vue";
+import AdminUserManage from "./views/AdminUserManage.vue";
+import AdminViewAccom from "./views/AdminViewAccom.vue";
+import AdminStudentAccom from "./views/AdminStudentAccom.vue";
+import AdminSemesterManage from "./views/AdminSemesterManage.vue";
 
 // Import layouts
 import AdminLayout from "./layouts/AdminLayout.vue";

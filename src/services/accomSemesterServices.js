@@ -1,5 +1,6 @@
 import apiClient from "./services";
-var baseURL = "/adminSemster/";
+var baseURL = "/semesters/";
+
 
 export default{
     getAll(){

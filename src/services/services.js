@@ -3,6 +3,7 @@ import Utils from "../config/utils.js";
 import AuthServices from "./authServices.js";
 import Router from "../router.js";
 
+
 var baseurl = "";
 if (import.meta.env.DEV) {
   baseurl = "http://localhost:3024/accommodations-t4";
