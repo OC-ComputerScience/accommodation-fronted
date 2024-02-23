@@ -30,16 +30,9 @@ var tableHeaders = [
   { title: "Category", key: "accommodation.categoryName" },
   { title: "Title", key: "accommodation.title" },
 ];
+user.value = Utils.getStore("user");
 
-onActivated(async () => {
-  user.value = Utils.getStore("user");
-  await findStudent();
-  await getSemesters();
-  await updateOpenRequestCount();
-  await getStudentAccoms();
-});
 onBeforeMount(async () => {
-  user.value = Utils.getStore("user");
   await findStudent();
   await getSemesters();
   await updateOpenRequestCount();
@@ -112,13 +105,9 @@ const addConsent = async (ocStudentId) => {
       }
     );
   } else {
-    await createStudent(ocStudentId)
-      .then((response) => {
-        student.value = response.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    await createStudent(ocStudentId).catch((err) => {
+      console.log(err);
+    });
   }
   noPermission.value = false;
 };
@@ -221,7 +210,6 @@ watch(selectedSemId, () => {
         v-model="selectedSemId"
         :items="semesters"
         item-title="semester"
-        item-value="semesterId"
         style="width: 15rem"
         class="semesterBox mt-3"
         return-object

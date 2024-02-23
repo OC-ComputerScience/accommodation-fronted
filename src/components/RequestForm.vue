@@ -21,7 +21,7 @@ const props = defineProps({
         label="Semester"
         :items="semesters"
         item-title="semester"
-        item-value="semesterId"
+        return-object
         variant="underlined"
         style="float: left; width: 60%; padding-left: 16px"
       ></v-combobox>

@@ -36,10 +36,9 @@ const handleCredentialResponse = async (response) => {
   await AuthServices.loginUser(token)
     .then((response) => {
       user.value = response.data;
-
+      console.log("loginuser", user.value);
       Utils.setStore("user", user.value);
-      fName.value = user.value.fName;
-      lName.value = user.value.lName;
+
       role.value = user.value.role;
 
       if (role.value == "student") router.push({ name: "studentHome" });
