@@ -8,6 +8,7 @@
     const cats = ref([]);
     const select = ref([]);
 
+
     async function getAccommodations(){
         try {
             const response = await AccommodationServices.getAll();
