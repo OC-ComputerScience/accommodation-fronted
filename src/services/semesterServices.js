@@ -1,4 +1,5 @@
 import apiClient from "./services.js";
+
 var baseURL = "/semesters/";
 
 export default{
@@ -18,3 +19,4 @@ export default{
         return apiClient.get(baseURL+semesterId);
     }
 };
+
