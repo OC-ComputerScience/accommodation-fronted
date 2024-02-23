@@ -30,10 +30,8 @@ var tableHeaders = [
   { title: "Title", key: "accommodation.title" },
 ];
 user.value = Utils.getStore("user");
-console.log("user", user.value);
 
 onBeforeMount(async () => {
-  console.log("before mount");
   await findStudent();
   await getSemesters();
   await updateOpenRequestCount();
