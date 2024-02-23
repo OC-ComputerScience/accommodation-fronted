@@ -60,7 +60,7 @@ const getClosedRequests = async () => {
 
 const filterClosedRequests = () => {
   closedReqBool.value = true;
-  console.log("Filtering closed requests", semesterFilter.value);
+
   const filteredReqs = unfilteredClosedRequests.value.filter((request) => {
     let inFilter = true;
     if (
@@ -73,7 +73,7 @@ const filterClosedRequests = () => {
       studentNameFilter.value &&
       !(request.student.fName + " " + request.student.lName)
         .toLowerCase()
-        .match(studentNameFilter.value.toLowerCase())
+        .includes(studentNameFilter.value.toLowerCase())
     ) {
       inFilter = false;
     }
