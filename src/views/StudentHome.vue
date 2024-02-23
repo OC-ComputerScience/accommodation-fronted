@@ -3,7 +3,7 @@ import RequestForm from "../components/RequestForm.vue";
 import Permissions from "../components/Permissions.vue";
 
 import router from "../router";
-import { onActivated, onBeforeMount, ref, watch } from "vue";
+import { onBeforeMount, ref, watch } from "vue";
 import RequestServices from "../services/requestServices";
 import StudentServices from "../services/studentServices";
 import StudentAccomServices from "../services/studentAccomServices";
@@ -18,12 +18,11 @@ const student = ref({});
 const allRequests = ref([]);
 const studentAccoms = ref([]);
 const filteredSemesterAccoms = ref([]);
-const semesterAccoms = ref([]);
+
 const openRequestCount = ref(0);
 const selectedSemId = ref();
 
 const semesters = ref([]);
-const semesterType = ref();
 
 var tableHeaders = [
   { title: "Semester", key: "semester.semester" },
@@ -31,8 +30,10 @@ var tableHeaders = [
   { title: "Title", key: "accommodation.title" },
 ];
 user.value = Utils.getStore("user");
+console.log("user", user.value);
 
 onBeforeMount(async () => {
+  console.log("before mount");
   await findStudent();
   await getSemesters();
   await updateOpenRequestCount();
@@ -84,6 +85,10 @@ const createStudent = async (ocStudentId) => {
       await userServices.update(user.value.userId, {
         studentId: student.value.studentId,
       });
+    })
+    .then(() => {
+      user.value.studentId = student.value.studentId;
+      Utils.setStore("user", user.value);
     })
     .catch((err) => {
       console.error(err);
