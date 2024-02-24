@@ -29,6 +29,10 @@ const maintainenceActions = [
     title: "Semesters",
     component: "adminSemesterManage",
   },
+  {
+    title: "Emails",
+    component: "adminEmailManage",
+  },
 ];
 
 const resetMenu = () => {

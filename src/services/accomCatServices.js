@@ -6,8 +6,6 @@ export default{
         return apiClient.get(baseURL);
     },
     getOne(accomCatId){
-        console.log("recieved accomCatId:" + `${accomCatId}`);
-        console.log("Requesting get @ " + baseURL + `${accomCatId}`);
         return apiClient.get(baseURL + `${accomCatId}`);
         
     },
