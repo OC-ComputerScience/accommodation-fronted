@@ -17,9 +17,5 @@ export default{
     delete(accommId){
         console.log('deleting');
         return apiClient.delete(baseURL+`${accommId}`);
-    },
-    deleteAll(){
-        console.log('deleting all');
-        return apiClient.delete(baseURL);
     }
 };
