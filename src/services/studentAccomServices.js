@@ -26,9 +26,5 @@ export default{
     delete(studentAccomId){
         console.log('deleting ' + studentAccomId);
         return apiClient.delete(baseURL+`${studentAccomId}`);
-    },
-    deleteAll(){
-        console.log('deleting all');
-        return apiClient.delete(baseURL);
     }
 };
