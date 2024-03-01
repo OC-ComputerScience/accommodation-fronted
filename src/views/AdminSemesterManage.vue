@@ -5,7 +5,6 @@
 
     const semesters = ref([]);
     const semester = ref("");
-    const message = ref("");
 
     async function getAllSemesters() {
         try {
@@ -16,51 +15,38 @@
             console.error('Error fetching semesters:', err); 
         }
     }
-    
-    const deleteSemester = (semesterToDelete) => {
-        AccomSemesterServices.delete(semesterToDelete.id)
-        .then((response) => {
-            semesters.value = response.data;
-            console.log("Delete Successful");
-            getAllSemesters();
-        })
-        .catch((e) => {
-            if (e.response) {
-                message.value = e.response.data.message;
-                console.log("Delete NOT Successful:", e.response.data.message);
-            } else {
-                console.error("Delete NOT Successful: Unknown error occurred");
-            }
-        });
-    };
 
-    
-    const editSemester = (semester) => {
-        AccomSemesterServices.update(semester.id)
-        .then((response) => {
+    async function deleteSemester(semester) {
+        // AccomSemesterServices.delete(semester);
+        try {
+            const response = await AccomSemesterServices.delete(semester);
             semesters.value = response.data;
-        })
-        .catch((e) => {
-            message.value = e.response.data.message;
-        })
+            console.log(semesters.value);
+        } catch (err) {
+            console.log("Error: ", err);
+        }
+    }
+    
+    const editSemester = () => {
+        router.push({name: ''});
     };
 
     const addSemester = () => {
         router.push({name: ''});
-        // AccomSemesterServices.addSemester(data) 
-        //     .then((response) => {
-        //         semesters.value = response.data;
-        //         console.log(response.data);
-        //     })
-        //     .catch((e) => {
-        //         message.value = e.response.data.message;
-        //     })
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
     };
     
     onMounted(async() => {
         getAllSemesters();
     });
-    
 </script>
 
 <template>
@@ -80,20 +66,18 @@
                         <th class="text-left">
                             Semester
                         </th>
-                        <!-- <th class="text-left">
-                            Year
-                        </th> -->
+                        <th class="text-left">
+                            Start Date
+                        </th>
                     </tr>
                 </thead>
 
-            <!-- <tr v-for="(semester, index) in semesters" style="background-color: #D5DFE7;"> -->
             <tr v-for="semester in semesters" style="background-color: #D5DFE7;">
                 <td class="pa-4">{{ semester.semester }}</td>
-                <!-- <td>{{ semester.year }} </td> -->
-
+                <td class="pa-4">{{ formatDate(semester.startDate) }}</td>
                 <td class="pa-4">
-                    <v-btn class="mr-4" color="error" style="float:right" @click="deleteSemester(semester)">delete</v-btn>
-                    <v-btn class="mr-4" color="#F9C634" style="float:right" @click="editSemester(semester)">edit</v-btn>
+                    <v-btn class="mr-4" color="error" style="float:right" @click="deleteSemester(semester.semesterId)">delete</v-btn>
+                    <v-btn class="mr-4" color="#F9C634" style="float:right" @click="editSemester(semester.semesterId)">edit</v-btn>
                 </td>
             </tr>
         </v-table>
