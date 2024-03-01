@@ -8,6 +8,7 @@
     const cats = ref([]);
     const select = ref([]);
 
+
     async function getAccommodations(){
         try {
             const response = await AccommodationServices.getAll();
@@ -55,6 +56,10 @@
     function newAccom(){
         router.push({ name: 'adminAccomManage'});
     }
+    function editAccom(x){
+        console.log('test',x);
+        router.push({ name: 'adminEditAccom', params: {accomID: x}});
+    }
 </script>
 
 <template>
@@ -93,8 +98,10 @@
                     ></v-combobox>
                 </td>
                 <td class="pa-4">
-                    <v-btn class="mr-4" color="primary" style="float:right" @click="deleteUser(a.accomId)">delete</v-btn>
-                    <v-btn class="mr-4" color="button_blue" style="float:right" @click="save(a, index)">save</v-btn>
+                    <v-btn class="mr-4" color="error" style="float:right" @click="deleteUser(a.accomId)">delete</v-btn>
+                    <v-btn class="mr-4" color="#F9C634" style="float:right" @click="save(a, index)">save</v-btn>
+                    <v-btn class="mr-4" color="black" style="float:right" @click="editAccom(a.accomId)">edit</v-btn>
+
                 </td>
             </tr>
         </v-table>
