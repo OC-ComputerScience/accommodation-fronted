@@ -6,11 +6,7 @@
 import accommodationServices from "../services/accommodationServices.js";
 
 
-const newAccom = ref({
-    title: "",
-    description: "",
-    categoryName: "",
-});
+const newAccom = ref({});
 
     const props = defineProps({
         accomID: {
@@ -61,7 +57,7 @@ AccommodationServices.getOne(props.accomID)
     async function getAccom(){
         try {
             const response = await AccommodationServices.getOne(props.accomID);
-            accom.value = response.data;
+            newAccom.value = response.data;
         } catch (err) {
             console.log(err);
         }
@@ -75,11 +71,16 @@ AccommodationServices.getOne(props.accomID)
     })
 
 
-    function save() {
+    async function save() {
         newAccom.value.categoryName = select.value;
-        accommodationServices.update(props.accomID, newAccom.value);
+        await accommodationServices.update(props.accomID, newAccom.value);
         router.push({ name: "adminViewAccom" });
        
+    }
+
+    function cancel(){
+        router.push({ name: "adminViewAccom" });
+
     }
 
 
@@ -98,18 +99,18 @@ AccommodationServices.getOne(props.accomID)
         <v-card style="background-color:#D5DFE7" class="pa-4">
             <div>
                 <p class="pl-5" style="font-weight: bold;">Accommodation Title</p>
-                <v-text-field class="pl-5 pr-5" v-model ="newAccom.title" v-bind="editedAccom" :placeholder="accom.title"></v-text-field>
+                <v-text-field class="pl-5 pr-5" v-model ="newAccom.title" v-bind="editedAccom"></v-text-field>
             </div>
             <div>
                 <p class="pl-5" style="font-weight: bold;">Accommodation Description</p>
-                <v-text-field  class="pl-5 pr-5" v-model ="newAccom.description" v-bind="editedAccom" :placeholder="accom.description" ></v-text-field>
+                <v-text-field  class="pl-5 pr-5" v-model ="newAccom.description" v-bind="editedAccom"></v-text-field>
             </div>
             <div>
                 <p class="pl-5" style="font-weight: bold;">Accommodation Category</p>
                     <v-select class="pl-5 pr-5"
                             :items="cats.map(cat => cat.name)"
                             label="category"
-                            v-model="select"
+                            v-model="newAccom.categoryName"
                         ></v-select>
             </div>
         </v-card>
