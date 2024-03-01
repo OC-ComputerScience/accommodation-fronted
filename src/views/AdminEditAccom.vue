@@ -72,7 +72,6 @@ AccommodationServices.getOne(props.accomID)
 
 
     async function save() {
-        newAccom.value.categoryName = select.value;
         await accommodationServices.update(props.accomID, newAccom.value);
         router.push({ name: "adminViewAccom" });
        

@@ -87,7 +87,7 @@ const router = createRouter({
       props: true,
     },
     {
-      path: 'adminEditAccom/:accomID',
+      path: '/adminEditAccom/:accomID',
       name: 'adminEditAccom',
       component: AdminEditAccom,
       props: true,
