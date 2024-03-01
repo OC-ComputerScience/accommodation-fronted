@@ -81,14 +81,15 @@
             </thead>
         
             <tr v-for="(a, index) in emails" style="background-color: #D5DFE7;">
+                
                 <td class="pa-4">{{ a.name }}</td>
                 <td class="pa-4">{{ a.description}}</td>
                 <td class="pa-4">{{ a.text}}</td>
                 <td>
-               
-
-                    <v-btn class="mr-4" color="primary" style="float:right" @click="deleteEmailMessage(a.emailMessageId)">delete</v-btn>
+                <v-row>
                     <v-btn class="mr-4" color="button_blue" style="float:right" @click="editEmail(a.emailMessageId)">edit</v-btn>
+                    <v-btn class="mr-4" color="primary" style="float:right" @click="deleteEmailMessage(a.emailMessageId)">delete</v-btn>
+                </v-row>
                      </td>
 
                 

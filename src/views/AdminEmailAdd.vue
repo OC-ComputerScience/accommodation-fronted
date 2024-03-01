@@ -34,15 +34,15 @@ import emailMessageServices from "../services/emailMessageServices";
            
             <div>
                 <p class="pl-5" style="font-weight: bold;">Name</p>
-                <v-text-field class="pl-5 pr-5" label="enter name for message" v-model="emailName"></v-text-field>
+                <v-text-field class="pl-5 pr-5" label="" v-model="emailName"></v-text-field>
             </div>
             <div>
                 <p class="pl-5" style="font-weight: bold;">Description</p>
-                <v-text-field class="pl-5 pr-5" label="enter description" v-model="emailDesc"></v-text-field>
+                <v-text-field class="pl-5 pr-5" label="" v-model="emailDesc"></v-text-field>
             </div>
             <div>
                 <p class="pl-5" style="font-weight: bold;">Content</p>
-                <v-text-field class="pl-5 pr-5" label="enter the content of the email" v-model="emailText"></v-text-field>
+                <v-text-field class="pl-5 pr-5" label="" v-model="emailText"></v-text-field>
             </div>
             
         </v-card>
