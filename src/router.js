@@ -17,6 +17,7 @@ import AdminStudentAccom from "./views/AdminStudentAccom.vue"
 import AdminEmailManage from "./views/AdminEmailManage.vue"
 import AdminEmailAdd from "./views/AdminEmailAdd.vue"
 import AdminEmailEdit from "./views/AdminEmailEdit.vue"
+import AdminEditAccom from "./views/AdminEditAccom.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
