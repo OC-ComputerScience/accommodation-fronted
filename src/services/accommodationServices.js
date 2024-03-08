@@ -6,7 +6,10 @@ export default{
         return apiClient.get(baseURL);
     },
     getAllForCategory(categoryName){
-        return apiClient.get(baseURL + `accommCategory/${categoryName}`);
+        return apiClient.get(baseURL + `category/${categoryName}`);
+    },
+    getOne(accommID){
+        return apiClient.get(baseURL + `${accommID}`);
     },
     create(data){
         return apiClient.post(baseURL, data);
@@ -17,9 +20,5 @@ export default{
     delete(accommId){
         console.log('deleting');
         return apiClient.delete(baseURL+`${accommId}`);
-    },
-    deleteAll(){
-        console.log('deleting all');
-        return apiClient.delete(baseURL);
     }
 };

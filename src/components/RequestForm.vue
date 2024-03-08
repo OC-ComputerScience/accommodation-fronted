@@ -1,9 +1,26 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 
 const selectedSemId = ref(null);
 const props = defineProps({
   semesters: Array,
+});
+
+const filteredSemesters = computed(() => {
+  const currentDate = new Date();
+  return props.semesters
+    .filter(semester => {
+      const semesterEndDate = new Date(semester.endDate);
+      return semesterEndDate >= currentDate;
+    })
+    .sort((a, b) => {
+      const [seasonA, yearA] = a.semester.split('-');
+      const [seasonB, yearB] = b.semester.split('-');
+      if (yearA === yearB) {
+        return seasonA === 'SP' ? -1 : 1;
+      }
+      return yearA - yearB;
+    });
 });
 </script>
 
@@ -19,7 +36,7 @@ const props = defineProps({
       <v-combobox
         v-model="selectedSemId"
         label="Semester"
-        :items="semesters"
+        :items="filteredSemesters"
         item-title="semester"
         return-object
         variant="underlined"

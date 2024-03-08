@@ -18,9 +18,5 @@ export default{
     delete(accomCatId){
         console.log('deleting ' + accomCatId);
         return apiClient.delete(baseURL+`${accomCatId}`);
-    },
-    deleteAll(){
-        console.log('deleting all');
-        return apiClient.delete(baseURL);
     }
 };

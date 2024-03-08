@@ -104,6 +104,12 @@ const router = createRouter({
       component: StudentHome,
       props: true,
     },
+    {
+      path: '/adminEditAccom/:accomID',
+      name: 'adminEditAccom',
+      component: AdminEditAccom,
+      props: true,
+    },
   ],
 });
 
