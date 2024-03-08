@@ -1,7 +1,7 @@
 <script setup>
     import StudentAccomServices from "../services/studentAccomServices";
-    import { ref, onMounted } from 'vue';
-    import router from '../router';
+    import { ref, onMounted, computed, watch } from 'vue';
+    import SemesterServices from "../services/semesterServices";
 
     const filterType = ref(null);
     const searchValue = ref(null);
@@ -10,6 +10,9 @@
     const noDataMsg = ref(null);
     const showTable = ref(false);
     const showEmpty = ref(false);
+    const semesters = ref([]);
+
+
 
     const findAccommodations = async () => {
         tableData.value = [];
@@ -26,7 +29,9 @@
                 });
         }
         else if(filterType.value == "Semester") { //find by semester
-            await StudentAccomServices.getAllForSemester(searchValue.value)
+            const semesterId = selectedSemesterId.value;
+            console.log("Passing semesterId: " + semesterId + "to student accom services")
+            await StudentAccomServices.getAllForSemester(semesterId)
                 .then((response) => {
                     studentAccom.value = response.data;
                 })
@@ -54,6 +59,33 @@
         }
         else showTable.value = true;
     }
+    const retrieveSemesters = async () => {
+  try {
+    const response = await SemesterServices.getAllSemesters();
+    semesters.value = response.data.map((semester) => ({
+      title: semester.semester,
+      key: semester.semesterId,
+    }));
+  } catch (error) {
+    console.error("Error loading semesters:", error);
+  }
+};
+
+const selectedSemesterId = computed(() => {
+    return searchValue.value ? searchValue.value.key : null;
+});
+
+watch(filterType, (newFilterType) => {
+    if (newFilterType === 'Student ID') {
+        searchValue.value = '';
+    } else if (newFilterType === 'Semester') {
+        searchValue.value = null; // Reset to null or an appropriate default value for the semester filter
+    }
+});
+
+onMounted(async () => {
+  await retrieveSemesters();
+});
 
 </script>
 <template>
@@ -76,7 +108,9 @@
                     <v-combobox
                         v-if="filterType=='Semester'"
                         v-model="searchValue"
-                        :items="['FA2023', 'SP2023']"
+                        :items="semesters"
+                        item-text="title"
+                        item-value="key"
                         style="width:15rem"
                     ></v-combobox>
                     <v-btn 
