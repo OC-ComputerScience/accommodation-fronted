@@ -17,10 +17,10 @@ import "@mdi/font/css/materialdesignicons.css";
 const myCustomLightTheme = {
   dark: false,
   colors: {
-    primary: "#80162B",
-    sidebar: "#004761",
-    button_blue: "#118ACB",
-    silver: "#D5DFE7",
+    primary: "#80162B",           //marroon
+    sidebar: "#004761",           //deep teal
+    button_blue: "#118ACB",       //light teal
+    silver: "#D5DFE7",      
     red_links: "#811429",
     yellow_cards: "#F9C634",
     blue: "#196CA2",
