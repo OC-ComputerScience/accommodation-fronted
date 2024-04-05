@@ -1,34 +1,32 @@
 <script setup>
     import AccomSemesterServices from "../services/accomSemesterServices";
+    import EditSemesterDialog from "../components/editSemesterDialog.vue";
     import { onMounted, ref } from 'vue';
     import router from '../router';
 
     const semesters = ref([]);
-    const semester = ref("");
+    const isEditDialogOpen = ref(false); 
 
     async function getAllSemesters() {
         try {
             const response = await AccomSemesterServices.getAll();
             semesters.value = response.data;
-            console.log('Semesters:', semesters.value);
         } catch (err) {
             console.error('Error fetching semesters:', err); 
         }
     }
 
-    async function deleteSemester(semester) {
-        // AccomSemesterServices.delete(semester);
+    async function deleteSemester(semesterId) {
         try {
-            const response = await AccomSemesterServices.delete(semester);
-            semesters.value = response.data;
-            console.log(semesters.value);
+            await AccomSemesterServices.delete(semesterId);
+            await getAllSemesters();
         } catch (err) {
-            console.log("Error: ", err);
+            console.error("Error deleting semester:", err);
         }
-    }
+    };
     
     const editSemester = () => {
-        router.push({name: ''});
+        isEditDialogOpen.value = true;
     };
 
     const addSemester = () => {
@@ -77,9 +75,11 @@
                 <td class="pa-4">{{ formatDate(semester.startDate) }}</td>
                 <td class="pa-4">
                     <v-btn class="mr-4" color="error" style="float:right" @click="deleteSemester(semester.semesterId)">delete</v-btn>
-                    <v-btn class="mr-4" color="#F9C634" style="float:right" @click="editSemester(semester.semesterId)">edit</v-btn>
+                    <!-- <EditSemesterDialog :dialogVisible="isEditDialogOpen()" /> -->
+                    <!-- <EditSemesterDialog :dialogVisible="editSemester" :semesterId="semester.semesterId" /> -->
                 </td>
             </tr>
         </v-table>
     </div>
+    <EditSemesterDialog :dialogVisible="isEditDialogOpen" /> <!--Remove when testing is done-->
 </template>

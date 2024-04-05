@@ -1,5 +1,5 @@
 import apiClient from "./services";
-var baseURL = "/semesters/"; // Look into this
+var baseURL = "/semesters/";
 
 export default{
     getAll(){
@@ -21,5 +21,5 @@ export default{
     deleteAll(){
         console.log('Deleting all Semesters');
         return apiClient.delete(baseURL);
-    }
+    },
 };
