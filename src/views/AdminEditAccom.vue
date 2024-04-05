@@ -152,5 +152,5 @@ function cancel(){
             <v-btn class="mr-4" color="button_blue" style="float:right" @click="save()">save</v-btn>
         </div>
     </div>
-    
+    </div>
 </template>
