@@ -21,6 +21,7 @@ export default {
     },
     // Delete an email message by ID
     delete(emailMessageId){
+        console.log("Email services attempting to delete email with message id: " + emailMessageId)
         return apiClient.delete(baseURL + `${emailMessageId}`);
     },
     // Delete all email messages

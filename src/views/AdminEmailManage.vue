@@ -35,6 +35,7 @@
     })
 
     function deleteEmailMessage(emailMessageId){
+        console.log("Trying to delete email with messageId: " + emailMessageId)
     emailMessageServices.delete(emailMessageId)
         .then(() => {
             console.log('Email Message deleted successfully.');

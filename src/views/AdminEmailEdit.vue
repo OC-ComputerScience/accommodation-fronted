@@ -58,7 +58,7 @@
             </div>
             <div>
                 <p class="pl-5" style="font-weight: bold;">Content</p>
-                <v-text-field class="pl-5 pr-5" label="" v-model="emailText"></v-text-field>
+                <v-textarea class="pl-5 pr-5" label="" v-model="emailText"></v-textarea>
             </div>
             
         </v-card>
