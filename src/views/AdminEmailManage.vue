@@ -26,6 +26,7 @@
     function setDefaultEmailMessageValues() {
         select.value = emails.value.map((emailMessage) => emailMessage.name);
         select.value = emails.value.map((emailMessage) => emailMessage.description);
+        select.value = emails.value.map((emailMessage) => emailMessage.category);
         select.value = emails.value.map((emailMessage) => emailMessage.text);
     }
 
@@ -76,6 +77,9 @@
                         Desc
                     </th>
                     <th class="text-left">
+                        Category
+                    </th>
+                    <th class="text-left">
                         Text
                     </th>
                 </tr>
@@ -85,6 +89,7 @@
                 
                 <td class="pa-4">{{ a.name }}</td>
                 <td class="pa-4">{{ a.description}}</td>
+                <td class="pa-4">{{ a.category}}</td>
                 <td class="pa-4">{{ a.text}}</td>
                 <td>
                 <v-row>

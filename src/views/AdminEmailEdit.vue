@@ -1,4 +1,6 @@
 <script setup>
+    import AccommodationServices from "../services/accommodationServices.js";
+    import accomCatServices from "../services/accomCatServices";
     import { ref, onMounted,defineProps } from 'vue';
     import router from '../router';
     import emailMessageServices from "../services/emailMessageServices";
@@ -9,8 +11,15 @@
         },
         
     });
+
+    const accoms = ref([]);
+    const cats = ref([]);
+    const select = ref([]);
+
+
     let emailName = ref('');
     let emailDesc = ref('');
+    let emailCat = ref('');
     let emailText = ref('');
 
     onMounted(async () => {
@@ -19,15 +28,50 @@
     
     emailName.value = emailMessage.data.name;
     emailDesc.value = emailMessage.data.description;
+    emailCat.value = emailMessage.data.category;
     emailText.value = emailMessage.data.text;
 
 });
+
+async function getAccommodations(){
+        try {
+            const response = await AccommodationServices.getAll();
+            accoms.value = response.data;
+            console.log(response)
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    async function getAccomCats(){
+        try {
+            const response = await accomCatServices.getAll();
+            cats.value = response.data;
+            setCategories();
+            setDefaultCatValues();
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    function setCategories(){
+        const uniqueCategories = new Set(cats.value.map(item => item.name));
+        cats.value = Array.from(uniqueCategories).map(name => ({ name }));
+    }
+    function setDefaultCatValues() {
+        select.value = accoms.value.map((accom) => accom.categoryName);
+    }
+    onMounted(async() =>{
+        await getAccommodations();
+        await getAccomCats();
+        setDefaultCatValues();
+    })
+
 
    
     function save(){
         let emailData = {
             name: emailName.value,   
             description: emailDesc.value,
+            category: emailCat.value,
             text: emailText.value,
         };
 
@@ -55,6 +99,18 @@
             <div>
                 <p class="pl-5" style="font-weight: bold;">Description</p>
                 <v-text-field class="pl-5 pr-5" label="" v-model="emailDesc"></v-text-field>
+            </div>
+            <div>
+                <p class="pl-5" style="font-weight: bold;">Category</p>
+                <td>
+                    <v-combobox
+                        class="pl-5"
+                        style="width: 200px;"
+                        :items="cats.map(cat => cat.name)"
+                        label="category"
+                        v-model="emailCat"
+                    ></v-combobox>
+                </td>
             </div>
             <div>
                 <p class="pl-5" style="font-weight: bold;">Content</p>
