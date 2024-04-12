@@ -1,5 +1,6 @@
 <script setup>
-  import { ref } from 'vue'; 
+  import { ref, onMounted } from 'vue'; 
+  import AccomSemesterServices from "../services/accomSemesterServices";
   
   const dialog = ref(false); 
   
@@ -8,18 +9,35 @@
           isDatePickerVisible.value = !isDatePickerVisible.value;
       };
 
+  const save = () => {
+    return dialog == false; // Why not work???
+  };
+
+  // const id = prop.id;     //Breaks everything
+  // async function getSemester(id) { 
+  //   try {
+  //     await AccomSemesterServices.getOne(id)
+  //   }
+  //   catch (error) {
+  //     console.lot("Error: ", error);  
+  //   }
+  // };
+  // onMounted(async() => {
+  //   getSemester();
+  // }); 
+
 </script>
 
 <template>
   <div class="pa-4 text-center">
     <v-dialog v-model="dialog" max-width="700">
       <template v-slot:activator="{ props: activatorProps }">
-      <!-- <template v-slot:activator="{ props: activatorProps }"> -->
         <v-btn 
         class="mr-4" 
         color="#F9C634" 
-        style="float:right" 
         v-bind="activatorProps"
+        style="float:left;
+        " 
         >edit</v-btn>
         <!-- @click="editSemester(semester.semesterId)">edit</v-btn> -->
       </template>
@@ -67,13 +85,19 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text="Close" variant="plain" @click="dialog = false"> </v-btn>
+          <v-row>
+          <v-btn 
+            text="Close" 
+            variant="plain" 
+            @click="dialog = false"
+          ></v-btn>
           <v-btn
             color="primary"
             text="Save"
             variant="tonal"
-            @click="dialog = false"
+            @click="save()"
           ></v-btn>
+          </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>

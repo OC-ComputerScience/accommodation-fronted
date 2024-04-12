@@ -1,8 +1,8 @@
 <script setup>
     import AccomSemesterServices from "../services/accomSemesterServices";
-    import EditSemesterDialog from "../components/editSemesterDialog.vue";
+    import semesterDialog from "../components/semesterDialog.vue";
     import { onMounted, ref } from 'vue';
-    import router from '../router';
+    // import router from '../router';
 
     const semesters = ref([]);
     const isEditDialogOpen = ref(false); 
@@ -10,27 +10,28 @@
     async function getAllSemesters() {
         try {
             const response = await AccomSemesterServices.getAll();
-            semesters.value = response.data;
+            semesters.value = response.data.map(semester => ({
+                ...semester,
+                startDate: formatDate(semester.startDate), 
+                endDate: formatDate(semester.endDate) 
+            }));
         } catch (err) {
             console.error('Error fetching semesters:', err); 
         }
-    }
+    };
 
-    async function deleteSemester(semesterId) {
+    async function deleteSemester(id) {
         try {
-            await AccomSemesterServices.delete(semesterId);
+            await AccomSemesterServices.delete(id);
+            console.log("ID: ", id);
             await getAllSemesters();
         } catch (err) {
             console.error("Error deleting semester:", err);
         }
     };
-    
-    const editSemester = () => {
-        isEditDialogOpen.value = true;
-    };
 
     const addSemester = () => {
-        router.push({name: ''});
+
     };
 
     const formatDate = (dateString) => {
@@ -41,6 +42,13 @@
             day: 'numeric'
         });
     };
+
+    const headers = [
+        { title: 'Semester', key: 'semester' },
+        { title: 'Start Date', key: 'startDate'},
+        { title: 'End Date', key: 'endDate'},
+        { title: " ", key: "actions", align:"end", sortable: false }
+    ];
     
     onMounted(async() => {
         getAllSemesters();
@@ -55,31 +63,20 @@
     <div>
         <v-btn class="mr-4" color="success" style="float:right" @click="addSemester()">Add Semester</v-btn>
     </div>
-    <br>
-
+        <br>
     <div class="pa-4">
-        <v-table>
-                <thead>
-                    <tr>
-                        <th class="text-left">
-                            Semester
-                        </th>
-                        <th class="text-left">
-                            Start Date
-                        </th>
-                    </tr>
-                </thead>
-
-            <tr v-for="semester in semesters" style="background-color: #D5DFE7;">
-                <td class="pa-4">{{ semester.semester }}</td>
-                <td class="pa-4">{{ formatDate(semester.startDate) }}</td>
-                <td class="pa-4">
-                    <v-btn class="mr-4" color="error" style="float:right" @click="deleteSemester(semester.semesterId)">delete</v-btn>
-                    <!-- <EditSemesterDialog :dialogVisible="isEditDialogOpen()" /> -->
-                    <!-- <EditSemesterDialog :dialogVisible="editSemester" :semesterId="semester.semesterId" /> -->
-                </td>
-            </tr>
-        </v-table>
+        <v-data-table
+            :headers="headers"
+            :items="semesters"
+            sortable
+            >
+            <template v-slot:[`item.actions`]="{ item }">
+                <v-btn class="ma-2" color="primary" style="float:right;" @click="deleteSemester(item.id)">Delete
+                </v-btn>
+                <v-btn class="ma-2" color="yellow" style="float:right;" @click="">Edit
+                </v-btn>
+                <!-- <semesterDialog :dialogVisible="isEditDialogOpen" /> --> <!--Not working good enough-->
+            </template>
+        </v-data-table>
     </div>
-    <EditSemesterDialog :dialogVisible="isEditDialogOpen" /> <!--Remove when testing is done-->
 </template>
