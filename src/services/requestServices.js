@@ -11,7 +11,7 @@ export default{
     getAllForStudent(studentId){
         return apiClient.get(baseURL + `studentReq/${studentId}`);
     },
-    getAllForStatus(status){
+    getAllForStatus(status, semesterId, studentId){
         return apiClient.get(baseURL + `statusReq/${status}`);
     },
     create(data){
@@ -23,9 +23,5 @@ export default{
     delete(requestId){
         console.log('deleting ' + requestId);
         return apiClient.delete(baseURL+`${requestId}`);
-    },
-    deleteAll(){
-        console.log('deleting all');
-        return apiClient.delete(baseURL);
     }
 };

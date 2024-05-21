@@ -12,7 +12,8 @@ export default{
         return apiClient.get(baseURL + `studentId/${studentId}`);
     },
     getAllForSemester(semesterId){
-        return apiClient.get(baseURL + `semesterId/${semesterId}`);
+        console.log("Finding semesters for semesterId: " + semesterId)
+        return apiClient.get(baseURL + `semester/${semesterId}`);
     },
     getAllForAccommodation(accomId){
         return apiClient.get(baseURL + `accomId/${accomId}`);
@@ -26,9 +27,5 @@ export default{
     delete(studentAccomId){
         console.log('deleting ' + studentAccomId);
         return apiClient.delete(baseURL+`${studentAccomId}`);
-    },
-    deleteAll(){
-        console.log('deleting all');
-        return apiClient.delete(baseURL);
     }
 };

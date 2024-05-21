@@ -3,7 +3,6 @@ import ocLogo from "/oc-logo-red.svg";
 import { ref, onMounted } from "vue";
 import Utils from "../config/utils";
 import AuthServices from "../services/authServices";
-import { routeLocationKey } from "vue-router";
 import router from "../router";
 
 const user = ref(null);
@@ -13,28 +12,49 @@ const name = ref("");
 const logoURL = ref("");
 const homePage = ref("");
 
+const maintainenceActions = [
+  {
+    title: "Accommodations",
+    component: "adminViewAccom",
+  },
+  {
+    title: "Categories",
+    component: "adminCatManage",
+  },
+  {
+    title: "Users",
+    component: "adminUserManage",
+  },
+  {
+    title: "Semesters",
+    component: "adminSemesterManage",
+  },
+  {
+    title: "Emails",
+    component: "adminEmailManage",
+  },
+];
+
 const resetMenu = () => {
   user.value = null;
   user.value = Utils.getStore("user");
   if (user.value) {
     initials.value = user.value.fName[0] + user.value.lName[0];
     name.value = user.value.fName + " " + user.value.lName;
-    console.log(user.value.role);
   }
 };
 
 const findHome = () => {
-  user.value = Utils.getStore('user');
-  homePage.value = user.value.role == 'admin' ? 'adminHome' : 'studentHome';
-  console.log(homePage.value);
-}
+  user.value = Utils.getStore("user");
+  homePage.value = user.value.role == "admin" ? "adminHome" : "studentHome";
+};
 
 const logout = () => {
-  console.log("In logout function")
-  AuthServices.logoutUser(user.value.token)
+  let data = {
+    token: user.value.token,
+  };
+  AuthServices.logoutUser(data)
     .then((response) => {
-      console.log("Logout response received");
-      console.log(response);
       Utils.removeItem("user");
       router.push({ name: "login" });
     })
@@ -48,7 +68,6 @@ onMounted(() => {
   logoURL.value = ocLogo;
   resetMenu();
   findHome();
-  console.log(user);
 });
 </script>
 
@@ -68,6 +87,31 @@ onMounted(() => {
         {{ title }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
+
+      <div v-if="user?.role == 'admin'" class="mr-2">
+        <v-btn @click="router.push({ name: 'adminHome' })"> Home </v-btn>
+
+        <v-btn @click="router.push({ name: 'adminStudentAccom' })">
+          Student Accommodations
+        </v-btn>
+        <v-btn>
+          Maintain
+
+          <v-menu activator="parent" open-on-hover>
+            <v-list>
+              <v-list-item
+                v-for="(item, index) in maintainenceActions"
+                :key="index"
+                :value="index"
+                @click="router.push({ name: item.component })"
+              >
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-btn>
+      </div>
+
       <v-menu bottom min-width="200px" rounded offset-y v-if="user">
         <template v-slot:activator="{ props }">
           <v-btn v-bind="props" icon x-large>
