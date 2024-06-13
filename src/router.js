@@ -18,6 +18,9 @@ import AdminEmailManage from "./views/AdminEmailManage.vue"
 import AdminEmailAdd from "./views/AdminEmailAdd.vue"
 import AdminEmailEdit from "./views/AdminEmailEdit.vue"
 import AdminEditAccom from "./views/AdminEditAccom.vue"
+import AdminSemManage from "./views/AdminSemManage.vue"
+import AdminSemEdit from "./views/AdminSemEdit.vue"
+import AdminSemAdd from "./views/AdminSemAdd.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +59,11 @@ const router = createRouter({
       component: AdminCatManage,
     },
     {
+      path: '/admin/adminSemManage/',
+      name: 'adminSemManage',
+      component: AdminSemManage,
+    },
+    {
       path: '/admin/adminEmailManage/',
       name: 'adminEmailManage',
       component: AdminEmailManage,
@@ -81,6 +89,17 @@ const router = createRouter({
       path: '/adminCatAdd/',
       name: 'adminCatAdd',
       component: AdminCatAdd,
+    },
+    {
+      path: '/adminSemEdit/:semesterId',
+      name: 'adminSemEdit',
+      component: AdminSemEdit,
+      props: true,
+    },
+    {
+      path: '/adminSemAdd/',
+      name: 'adminSemAdd',
+      component: AdminSemAdd,
     },
     {
       path: '/admin/adminUserManage/',

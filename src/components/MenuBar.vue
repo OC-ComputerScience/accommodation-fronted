@@ -27,7 +27,7 @@ const maintainenceActions = [
   },
   {
     title: "Semesters",
-    component: "adminSemesterManage",
+    component: "adminSemManage",
   },
   {
     title: "Emails",

@@ -3,8 +3,8 @@
  */
 import { createVuetify } from "vuetify";
 
-// Data Table
-import { VDataTable } from 'vuetify/labs/VDataTable'
+// Labs
+
 
 // Misc
 import { loadFonts } from "./webfontloader";
@@ -36,9 +36,7 @@ const myCustomLightTheme = {
 };
 
 const vuetify = createVuetify({
-  components: {
-    VDataTable,
-  },
+
   theme: {
     defaultTheme: "myCustomLightTheme",
     themes: {
