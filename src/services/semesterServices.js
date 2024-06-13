@@ -7,16 +7,16 @@ export default{
         return apiClient.post(baseURL, data);
     },
     updateSemester(semesterId,data){
-        return apiClient.put(baseURL+semesterId, data);
+        return apiClient.put(baseURL+"id/"+semesterId, data);
     },
     deleteSemester(semesterId){
-        return apiClient.delete(baseURL+semesterId);
+        return apiClient.delete(baseURL+"id/"+semesterId);
     },
     getAllSemesters(){
         return apiClient.get(baseURL);
     },
     getSemester(semesterId){
-        return apiClient.get(baseURL+semesterId);
+        return apiClient.get(baseURL+"id/"+semesterId);
     }
 };
 

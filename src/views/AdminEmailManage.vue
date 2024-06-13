@@ -62,11 +62,8 @@ function addEmail() {
 </script>
 
 <template>
-  <v-row>
-    <v-title class="text-h5" style="font-weight: bold"
-      >Manage Email Messages</v-title
-    >
-  </v-row>
+  <v-row class="pa-4 text-h5 font-weight-bold"> Manage Email Messages </v-row>
+
   <v-row>
     <v-spacer></v-spacer>
     <v-btn class="mr-4" color="#800000" style="float: right" @click="addEmail()"
