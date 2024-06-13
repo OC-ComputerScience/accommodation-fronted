@@ -45,10 +45,28 @@
             const student = currentValue.student;
             const semester = currentValue.semester;
             const accommodation = currentValue.accommodation;
+
+            console.log(currentValue);
+
+            var semesterSeason = "";
+            var semesterYear = "";
+            //console.log(semester.semester);
+            for (let i = 0; i < semester.semester.length; i++) {
+             
+                if (i < 2)
+               {
+                semesterSeason += semester.semester[i];                        //Adds the two letters in the year 
+               }
+               else
+               {
+                semesterYear += semester.semester[i];                          //Adds the four digits in the year
+               }
+            }   
+
             let bridge = {
                 uName: student.fName + ' ' + student.lName,
                 id: student.studentId,
-                semester: semester.season + ' ' + semester.year,
+                semester: semesterSeason + ' ' + semesterYear,
                 type: accommodation.title,
                 category: accommodation.categoryName
             };
