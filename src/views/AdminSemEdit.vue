@@ -37,7 +37,6 @@ onMounted(async () => {
         semester.value.endDate != null
           ? new Date(semester.value.endDate).toLocaleDateString()
           : null;
-      console.log(semester.value);
     })
     .catch((err) => {
       console.log(err);
