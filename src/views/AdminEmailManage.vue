@@ -75,7 +75,7 @@ function addEmail() {
       <thead>
         <tr>
           <th class="text-left">Name</th>
-          <th class="text-left">Desc</th>
+          <th class="text-left">Subject</th>
           <th class="text-left">Text</th>
           <th class="text-left">Action</th>
         </tr>

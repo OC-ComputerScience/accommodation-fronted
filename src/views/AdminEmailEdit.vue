@@ -69,7 +69,7 @@ function cancel() {
         ></v-text-field>
       </div>
       <div>
-        <p class="pl-5" style="font-weight: bold">Description</p>
+        <p class="pl-5" style="font-weight: bold">Subject</p>
         <v-text-field
           class="pl-5 pr-5"
           label=""
