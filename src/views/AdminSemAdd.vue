@@ -49,6 +49,7 @@ function cancel() {
             label=""
             v-model="semester.startDate"
             :rules="dateRules"
+            type="date"
           ></v-text-field>
           <p class="pl-5" style="font-weight: bold">End Date</p>
           <v-text-field
@@ -56,6 +57,7 @@ function cancel() {
             label=""
             v-model="semester.endDate"
             :rules="dateRules"
+            type="date"
           ></v-text-field>
         </div>
       </div>
