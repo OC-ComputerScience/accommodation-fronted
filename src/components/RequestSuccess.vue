@@ -1,25 +1,13 @@
 <template>
-    <div class="overlay">
-        
-            <p class="overlay-content">Request Successful!</p>
-            <br>
-            <p class="overlay-content">You will receive an email with instructions describing the documentation you need and a link to schedule an in-person appointment with Student Success.</p>
-            <br>
-            <p class="overlay-content">Click this to close!</p>
-
-   </div>
+    <v-container>
+        <v-card
+        elevation="5"
+        rounded="lg"
+        width="100%"
+        style="padding-bottom: 16px; padding-left: 16px"
+        >
+            <v-card-title style="text-align:center">Request Successful!</v-card-title>
+            <p style="text-align:center">Your request has been sent! You will receive an email when the request is approved!<br><br>Click to close</p>
+        </v-card>
+    </v-container>
 </template>
-
-<style>
-
-.overlay {
-    width: 100%;
-    height: 100%;
-}
-
-.overlay-content{
-    width: 100%;
-   text-align: center;
-}
-
-</style>
