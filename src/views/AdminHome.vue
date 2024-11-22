@@ -96,8 +96,9 @@ const clearFilters = () => {
 };
 
 const formatDate = (date) => {
-  return moment(String(date)).format("MM/DD/YYYY");
+  return moment(String(date)).format("DD/MM/YYYY"); // Changed format here
 };
+
 
 const addAccom = (request) => {
   // Add code here to change the route.
